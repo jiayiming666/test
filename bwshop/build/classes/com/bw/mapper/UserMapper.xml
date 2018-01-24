@@ -1,0 +1,37 @@
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bw.dao.UserMapper">
+    <select id="getUserList" resultType="User" parameterType="map">
+    	select u.* from u_user u limit #{index},#{rows}
+    </select>
+   	<select id="listUCount" resultType="int" >
+   		select count(uid) from u_user
+   	</select>
+    <insert id="useradd" parameterType="user">
+    	insert into u_user(uname,upwd,usex) values(#{uname},#{upwd},#{usex})
+    </insert>
+    <delete id="deluser" parameterType="int">
+    	delete from u_user where uid=#{value}
+    </delete>
+    <select id="getuser" resultType="user" parameterType="int">
+    	select * from u_user where uid=#{value}
+    </select>
+    <update id="userUpdate" parameterType="user">
+    	update u_user set uname=#{uname},upwd=#{upwd},usex=#{usex} where uid=#{uid}
+    </update>
+    <select id="getUserBean" resultType="com.bw.dto.UserBean">
+    	select u.uid,u.uname,u.upwd,u.usex,GROUP_CONCAT(r.rname) rname
+		from u_user u left join u_user_roler ur on u.uid = ur.uid
+		join u_roles r on ur.rid = r.rid
+		group by u.uid
+    </select>
+    <select id="getRoles" resultType="roles">
+    	select * from u_roles
+    </select>
+    <select id="getUserRoles" resultType="roles" parameterType="int">
+    	select r.rid,r.rname
+    	from u_user_roler ur join u_roles r on ur.rid = r.rid
+		where ur.uid =  #{value}
+    </select>
+</mapper>

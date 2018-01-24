@@ -1,0 +1,29 @@
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bw.dao.OrderMapper">
+    <select id="listdistrict" resultType="District" parameterType="int">
+    	select d.* from district d where d.upid = #{value}
+    </select>
+    <insert id="addorder" parameterType="order">
+    	insert into u_order(u_id,order_code,payment,payment_type,payment_time,
+     shipping_name,shipping_code,status,creat_time,updata_time) values
+     (#{u_id},#{order_code},#{payment},#{payment_type},sysdate(),#{shipping_name},
+     #{shipping_code},#{status},sysdate(),sysdate())
+    </insert>
+    <insert id="addItem" parameterType="ArrayList">
+    	insert into u_order_item(goods_id,order_code,gnum,gname,price
+    	,total,gurl)
+    	values 
+    	<foreach collection="list" item="item" separator=",">
+    		(#{item.goods_id},#{item.order_code},#{item.gnum},#{item.gname}
+    		,#{item.price},#{item.total},#{item.gurl})
+    	</foreach>
+    </insert>
+    <insert id="addOrderShipping" parameterType="OrderShipping">
+    	insert into u_order_shipping(order_code,receiver_name,receiver_phone
+    	,receiver_state,receiver_city,receiver_district,receiver_address,receiver_zip)
+    	values(#{order_code},#{receiver_name},#{receiver_phone},#{receiver_state}
+    	,#{receiver_city},#{receiver_district},#{receiver_address},#{receiver_zip});
+    </insert>
+</mapper>

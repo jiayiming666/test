@@ -1,0 +1,11 @@
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bw.dao.MenueMapper">
+    <select id="getListMenue" resultType="Menue" parameterType="int">
+    	select distinct(m.mid),m.mname,m.pid,m.murl
+		from u_user u,u_user_roler ur,u_roles r,u_roles_menue rm,u_menue m
+		where u.uid = ur.uid and ur.rid = r.rid and
+		r.rid = rm.rid and rm.mid = m.mid and u.uid=#{value}
+    </select>
+</mapper>

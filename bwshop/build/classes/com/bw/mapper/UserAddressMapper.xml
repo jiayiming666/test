@@ -1,0 +1,23 @@
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bw.dao.UserAddressMapper">
+    <select id="getUserAddressByUid" resultType="UserAddress" parameterType="int">
+    	select ua.* from u_users_address ua where ua.status='1' and ua.uid=#{value}
+    </select>
+    <select id="listAddressByUid" resultType="UserAddress" parameterType="int">
+    	select ua.* from u_users_address ua where ua.uid = #{value} order by ua.status
+    </select>
+    <update id="editAddress" parameterType="int">
+    	update u_users_address set status='1' where id=#{value}
+    </update>
+    <update id="editUserAddressByUid" parameterType="int">
+    	update u_users_address set status='0' where uid=#{value}
+    </update>
+    <insert id="addAddress" parameterType="userAddress">
+    	insert into u_users_address(uid,receiver_name,receiver_phone,
+       receiver_state,receiver_city,receiver_district,receiver_address,receiver_zip,status)
+       values(#{uid},#{receiver_name},#{receiver_phone},#{receiver_state},
+       #{receiver_city},#{receiver_district},#{receiver_address},#{receiver_zip},#{status})
+    </insert>
+</mapper>

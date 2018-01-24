@@ -1,0 +1,22 @@
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bw.dao.GoodsCartMapper">
+    <select id="GoodsCartByUid" resultType="com.bw.dto.GoodsCartBean" parameterType="int">
+    	select gc.id,gc.gid,gc.gnum
+    	,gc.uid,gc.gtotal,g.gname,g.gprice
+    	,g.gnum,g.gtime,g.gurl,g.tid,g.tname
+		from u_goodscart gc left join u_goods g on 
+		gc.gid = g.gid where gc.uid = #{uid} 
+    </select>
+    <insert id="addGoodsCart" parameterType="goodsCart">
+    	insert into u_goodscart(gid,uid,gnum,gtotal) 
+    	values(#{gid},#{uid},#{gnum},#{gtotal})
+    </insert>
+    <update id="editGoodsCart" parameterType="goodsCart">
+    	update u_goodscart set gnum=#{gnum},gtotal=#{gtotal} where id=#{id}
+    </update>
+    <select id="getGoodsCart" resultType="GoodsCart" parameterType="map">
+    	select * from u_goodscart where uid=#{uid} and gid = #{gid}
+    </select>
+</mapper>
